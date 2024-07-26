@@ -16,21 +16,37 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Resources\Shaders">
-      <UniqueIdentifier>{b6f858f9-4723-461b-875c-0501479276ca}</UniqueIdentifier>
+    <Filter Include="Source\pch">
+      <UniqueIdentifier>{9fc9e781-248c-47e7-8280-a09da10f6caa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\icons">
+      <UniqueIdentifier>{a00d1282-4cf3-4b08-b615-f8a37c254dec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Shaders.cpp">
-      <Filter>Source\Private</Filter>
-    </ClCompile>
     <ClCompile Include="Source\WinMain.cpp">
       <Filter>Source\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Source\pch.cpp">
+      <Filter>Source\pch</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="shaders.hlsl">
-      <Filter>Resources\Shaders</Filter>
-    </FxCompile>
+    <ClInclude Include="Source\pch.h">
+      <Filter>Source\pch</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="D3DEngine.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Content\Icons\OlympusMons.ico">
+      <Filter>Resources\icons</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -1,3 +1,4 @@
 # Visual Studio cache/options directory
 .vs/
-D3D12Example/
+D3DEngine/
+Build/
