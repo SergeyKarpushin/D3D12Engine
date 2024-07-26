@@ -46,7 +46,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="D3DEngine.rc">
+    <ResourceCompile Include="Game.rc">
       <Filter>Resources</Filter>
     </ResourceCompile>
   </ItemGroup>

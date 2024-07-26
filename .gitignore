@@ -1,4 +1,5 @@
 # Visual Studio cache/options directory
 .vs/
-D3DEngine/
+GameEngine/
 Build/
+**/Intermediate
