@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Dev\\DataAnnotation\\C\u002B\u002B\\D3DExample\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C0C87803-AA32-4481-A45A-757D2E059BE8}|D3DExample.vcxproj|C:\\Dev\\DataAnnotation\\C\u002B\u002B\\D3DExample\\Source\\WinMain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C0C87803-AA32-4481-A45A-757D2E059BE8}|D3DExample.vcxproj|solutionrelative:Source\\WinMain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "WinMain.cpp",
+              "DocumentMoniker": "C:\\Dev\\DataAnnotation\\C\u002B\u002B\\D3DExample\\Source\\WinMain.cpp",
+              "RelativeDocumentMoniker": "Source\\WinMain.cpp",
+              "ToolTip": "C:\\Dev\\DataAnnotation\\C\u002B\u002B\\D3DExample\\Source\\WinMain.cpp",
+              "RelativeToolTip": "Source\\WinMain.cpp",
+              "ViewState": "AQIAACgAAAAAAAAAAAAmwEMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-07-26T02:12:47.904Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
