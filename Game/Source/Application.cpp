@@ -12,6 +12,11 @@ Application::~Application()
 {
 }
 
+VOID Application::SetupPerGameSetting()
+{
+    return VOID();
+}
+
 VOID Application::Initialize()
 {
     MessageBox(0, L"I am loaded up!", 0, 0);
