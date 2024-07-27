@@ -1,15 +1,16 @@
 #include "Engine.h"
 #include "IApplication.h"
 
-extern IApplication* EntryApplication();
+//extern IApplication* EntryApplication();
 
 int CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR, INT)
 {
     auto EntryApp = EntryApplication();
 
     PerGameSettings gameSettings;
-    Logger logger;
+    EntryApp->SetupPerGameSetting();
 
+    Logger logger;
     EntryApp->Initialize();
 
     MSG msg = { 0 };
