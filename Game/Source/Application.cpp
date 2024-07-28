@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Application.h"
 #include "Platform/WIN32/WinEntry.h"
+#include "Engine/OEngine.h"
 
 ENTRYAPP(Application)
 
@@ -25,9 +26,8 @@ VOID Application::Initialize()
 	Logger::PrintLog(L"Application Starting...\n");
 	Logger::PrintLog(L"Game Name: %s\n", PerGameSettings::GameName());
 	Logger::PrintLog(L"Boot Time: %s\n", Time::GetDateTime().c_str());
+	Logger::PrintLog(L"Engine Mode: %s\n", Engine::EngineModeToString().c_str());
 	Logger::PrintDebugSeperator();
-
-	Logger::StartMTail();
 }
 
 VOID Application::Update()

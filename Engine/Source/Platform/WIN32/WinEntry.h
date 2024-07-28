@@ -1,7 +1,8 @@
 #include "Engine.h"
 #include "IApplication.h"
+#include "Common/CmdLineArgs.h"
 
-//extern IApplication* EntryApplication();
+extern Win32::IApplication* EntryApplication();
 
 int CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR, INT)
 {
@@ -9,6 +10,8 @@ int CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR, INT)
 
     PerGameSettings gameSettings;
     EntryApp->SetupPerGameSetting();
+
+    CmdLineArgs::ReadArguments();
 
     Logger logger;
     EntryApp->Initialize();
