@@ -99,7 +99,6 @@
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\pch.cpp" />
-    <ClCompile Include="Source\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
