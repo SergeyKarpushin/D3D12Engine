@@ -43,13 +43,12 @@ LRESULT SplashWindow::MessageHandler(HWND hwnd, UINT message, WPARAM wParam, LPA
 	switch (message) {
 	case WM_PAINT:
 	{
-		HBITMAP hbitmap;
-		HDC hdc, hmemdc;
+		HDC hdc;
 		PAINTSTRUCT ps;
 
 		hdc = BeginPaint(hwnd, &ps);
 
-		Win32::Utils::AddBitmap(L"..\\Engine\\Content\\Images\\Splash.bmp", hdc);
+		Win32::Utils::AddBitmap(PerGameSettings::SplashURL(), hdc);
 
 		SetBkMode(hdc, TRANSPARENT);
 		SetTextColor(hdc, RGB(255, 255, 255));
@@ -57,12 +56,12 @@ LRESULT SplashWindow::MessageHandler(HWND hwnd, UINT message, WPARAM wParam, LPA
 		if (Engine::GetMode() != Engine::EngineMode::RELEASE) {
 			std::wstring engineModeText = Engine::EngineModeToString() + L" Mode";
 			SetTextAlign(hdc, TA_RIGHT);
-			TextOut(hdc, m_Width - 15, 15, engineModeText.c_str(), wcslen(engineModeText.c_str()));
+			TextOut(hdc, m_Width - 15, 15, engineModeText.c_str(), static_cast<int>(wcslen(engineModeText.c_str())));
 		}
 
 		SetTextAlign(hdc, TA_CENTER);
 		
-		TextOut(hdc, m_Width / 2, m_Height - 30, m_OutputMessage, wcslen(m_OutputMessage));
+		TextOut(hdc, m_Width / 2, m_Height - 30, m_OutputMessage, static_cast<int>(wcslen(m_OutputMessage)));
 
 		EndPaint(hwnd, &ps);
 	}

@@ -16,29 +16,23 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source\pch">
-      <UniqueIdentifier>{9fc9e781-248c-47e7-8280-a09da10f6caa}</UniqueIdentifier>
+    <Filter Include="Resources\Images">
+      <UniqueIdentifier>{06c45d3b-cc4b-469c-8d72-eca306d10f49}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resources\icons">
+    <Filter Include="Resources\Icons">
       <UniqueIdentifier>{a00d1282-4cf3-4b08-b615-f8a37c254dec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\pch.cpp">
-      <Filter>Source\pch</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Application.cpp">
+    <ClCompile Include="Source\GameProject.cpp">
       <Filter>Source\Private</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\pch.h">
-      <Filter>Source\pch</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Application.h">
+    <ClInclude Include="Source\GameProject.h">
       <Filter>Source\Public</Filter>
     </ClInclude>
   </ItemGroup>
@@ -49,7 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Content\Icons\OlympusMons.ico">
-      <Filter>Resources\icons</Filter>
+      <Filter>Resources\Icons</Filter>
+    </Image>
+    <Image Include="Content\Images\BlankProjectSplash.bmp">
+      <Filter>Resources\Images</Filter>
     </Image>
   </ItemGroup>
 </Project>

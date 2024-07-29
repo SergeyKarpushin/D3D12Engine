@@ -61,7 +61,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <PrecompiledHeader>Create</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>GameProject.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)Engine\Source;$(SolutionDir)Game\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -81,7 +81,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Create</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>GameProject.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)Engine\Source;$(SolutionDir)Game\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -97,19 +97,18 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Application.cpp" />
-    <ClCompile Include="Source\pch.cpp" />
+    <ClCompile Include="Source\GameProject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Source\Application.h" />
-    <ClInclude Include="Source\pch.h" />
+    <ClInclude Include="Source\GameProject.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Game.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Content\Icons\OlympusMons.ico" />
+    <Image Include="Content\Images\BlankProjectSplash.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">
