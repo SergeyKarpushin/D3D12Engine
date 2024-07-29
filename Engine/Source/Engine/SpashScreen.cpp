@@ -3,34 +3,47 @@
 
 namespace SplashScreen
 {
-    SplashWindow* m_SplashWindow;
+	SplashWindow* m_SplashWindow;
 
-    VOID Open()
-    {
-        if (m_SplashWindow == nullptr) {
-            m_SplashWindow = new SplashWindow();
-        }
-    }
+	VOID Open()
+	{
+		if (m_SplashWindow == nullptr) {
+			m_SplashWindow = new SplashWindow();
+		}
+	}
 
-    VOID Close()
-    {
-        delete m_SplashWindow;
-    }
+	VOID Close()
+	{
+		delete m_SplashWindow;
+	}
 
-    VOID AddMessage(const WCHAR* message)
-    {
-        return VOID ENGINE_API();
-    }
+	VOID AddMessage(const WCHAR* message)
+	{
+		return VOID ENGINE_API();
+	}
 }
 
 SplashWindow::SplashWindow()
-    : Win32::Window(L"SplashScreen", L"SplashScreen", NULL, 500, 600)
+	: Win32::Window(L"SplashScreen", L"SplashScreen", NULL, 500, 600)
 {
-    wcscpy_s(m_OutputMessage, L"SplashScreen starting...");
-    Win32::Window::RegisterNewClass();
-    Win32::Window::Initialize();
+	wcscpy_s(m_OutputMessage, L"SplashScreen starting...");
+	Win32::Window::RegisterNewClass();
+	Win32::Window::Initialize();
 }
 
 SplashWindow::~SplashWindow()
 {
+}
+
+LRESULT SplashWindow::MessageHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message) {
+	case WM_PAINT:
+	{
+		HBITMAP hbitmap;
+
+	}
+	break;
+	}
+	return CommonMessageHandler(hwnd, message, wParam, lParam);
 }

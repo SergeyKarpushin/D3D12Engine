@@ -22,5 +22,8 @@ namespace Win32 {
         std::wstring	m_Class;
         std::wstring	m_Title;
         HICON           m_hIcon;
+        HWND            m_hWnd;
+    public:
+        HWND GetHandle() { return m_hWnd; }
     };
 }

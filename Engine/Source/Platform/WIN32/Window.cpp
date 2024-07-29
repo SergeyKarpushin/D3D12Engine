@@ -14,14 +14,18 @@ namespace Win32
 
     VOID Window::Initialize()
     {
-        HWND hWnd = CreateWindow(m_Class.c_str(), m_Title.c_str(), WS_OVERLAPPEDWINDOW,
-            CW_USEDEFAULT, 0, m_Width, m_Height, nullptr, nullptr, HInstance(), (void*)this);
-        if (!hWnd) {
+        RECT desktop;
+        const HWND hWnd = GetDesktopWindow();
+        GetWindowRect(hWnd, &desktop);
+
+        m_hWnd = CreateWindow(m_Class.c_str(), m_Title.c_str(), WS_POPUP,
+            (desktop.right - m_Width) / 2, (desktop.bottom - m_Height) / 2, m_Width, m_Height, 0, 0, HInstance(), (void*)this);
+        if (!m_hWnd) {
             MessageBox(0, L"Failed to Create Window!", 0, 0);
             PostQuitMessage(0);
         }
 
-        ShowWindow(hWnd, SW_SHOW);
+        ShowWindow(m_hWnd, SW_SHOW);
 
     }
 
