@@ -1,8 +1,11 @@
 #include "Engine.h"
 #include "SpashScreen.h"
+#include "Platform/Win32/Win32Utils.h"
 
 namespace SplashScreen
 {
+	#define WM_OUTPUTMESSAGE (WM_USER + 0x0001)
+
 	SplashWindow* m_SplashWindow;
 
 	VOID Open()
@@ -19,7 +22,7 @@ namespace SplashScreen
 
 	VOID AddMessage(const WCHAR* message)
 	{
-		return VOID ENGINE_API();
+		PostMessage(m_SplashWindow->GetHandle(), WM_OUTPUTMESSAGE, (WPARAM)message, 0);
 	}
 }
 
@@ -41,9 +44,36 @@ LRESULT SplashWindow::MessageHandler(HWND hwnd, UINT message, WPARAM wParam, LPA
 	case WM_PAINT:
 	{
 		HBITMAP hbitmap;
+		HDC hdc, hmemdc;
+		PAINTSTRUCT ps;
 
+		hdc = BeginPaint(hwnd, &ps);
+
+		Win32::Utils::AddBitmap(L"..\\Engine\\Content\\Images\\Splash.bmp", hdc);
+
+		SetBkMode(hdc, TRANSPARENT);
+		SetTextColor(hdc, RGB(255, 255, 255));
+
+		if (Engine::GetMode() != Engine::EngineMode::RELEASE) {
+			std::wstring engineModeText = Engine::EngineModeToString() + L" Mode";
+			SetTextAlign(hdc, TA_RIGHT);
+			TextOut(hdc, m_Width - 15, 15, engineModeText.c_str(), wcslen(engineModeText.c_str()));
+		}
+
+		SetTextAlign(hdc, TA_CENTER);
+		
+		TextOut(hdc, m_Width / 2, m_Height - 30, m_OutputMessage, wcslen(m_OutputMessage));
+
+		EndPaint(hwnd, &ps);
 	}
 	break;
+	case WM_OUTPUTMESSAGE:
+	{
+		WCHAR* msg = (WCHAR*)wParam;
+		wcscpy_s(m_OutputMessage, msg);
+		RedrawWindow(m_hWnd, NULL, NULL, RDW_INVALIDATE);
+		return 0;
+	}
 	}
 	return CommonMessageHandler(hwnd, message, wParam, lParam);
 }
