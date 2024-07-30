@@ -1,11 +1,17 @@
 #include "Engine.h"
 #include "Window.h"
 
+#include "Uxtheme.h"
+#pragma comment(lib, "Uxtheme.lib")
+
+#define DCX_USERSTYLE 0x00010000
+
 namespace Win32
 {
-    Window::Window(std::wstring className, std::wstring classTitile, HICON icon, INT width, INT height)
-        : SubObject(className, classTitile, icon), m_Width(width), m_Height(height)
+    Window::Window(std::wstring title, HICON icon, WindowType type)
+        : SubObject(title, title, icon), m_type(type)
     {
+        SetSize(DEFAULT_SIZE_X, DEFAULT_SIZE_Y);
     }
 
     Window::~Window()
@@ -18,19 +24,58 @@ namespace Win32
         const HWND hWnd = GetDesktopWindow();
         GetWindowRect(hWnd, &desktop);
 
-        m_hWnd = CreateWindow(m_Class.c_str(), m_Title.c_str(), WS_POPUP,
-            (desktop.right - m_Width) / 2, (desktop.bottom - m_Height) / 2, m_Width, m_Height, 0, 0, HInstance(), (void*)this);
+        INT x = Size().cx;
+        INT y = Size().cy;
+
+        m_hWnd = CreateWindow(m_Class.c_str(), m_Title.c_str(), m_type,
+            (desktop.right - x) / 2, (desktop.bottom - y) / 2, x, y, 0, 0, HInstance(), (void*)this);
         if (!m_hWnd) {
             MessageBox(0, L"Failed to Create Window!", 0, 0);
             PostQuitMessage(0);
         }
 
         ShowWindow(m_hWnd, SW_SHOW);
-
+        UpdateWindow(m_hWnd);
     }
 
     LRESULT Window::MessageHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
-        return CommonMessageHandler(hwnd, message, wParam, lParam);
+        switch (message)
+        {
+        case WM_NCCREATE: { OnNonClientCreate(); } return TRUE;
+        case WM_NCPAINT: { OnNonClientPaint((HRGN)wParam); } return FALSE;
+        case WM_TIMER: { RedrawWindow(); } break;
+        }
+        return SubObject::MessageHandler(hwnd, message, wParam, lParam);
+    }
+
+    VOID Window::RedrawWindow()
+    {
+        SetWindowPos(Handle(), NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_DRAWFRAME | SWP_FRAMECHANGED);
+        SendMessage(Handle(), WM_PAINT, 0, 0);
+    }
+
+    VOID Window::OnNonClientCreate()
+    {
+        SetTimer(Handle(), 1, 100, NULL);
+        SetWindowTheme(Handle(), L"", L"");
+    }
+
+    VOID Window::OnNonClientPaint(HRGN region)
+    {
+        HDC hdc = GetDCEx(Handle(), region, DCX_WINDOW | DCX_INTERSECTRGN | DCX_USERSTYLE);
+
+        RECT rect;
+        GetWindowRect(Handle(), &rect);
+
+        SIZE size = { rect.right - rect.left, rect.bottom - rect.top };
+        RECT newRect = { 0, 0, size.cx, size.cy };
+
+        HBRUSH brush = CreateSolidBrush(RGB(46, 46, 46));
+
+        FillRect(hdc, &newRect, brush);
+        DeleteObject(brush);
+
+        ReleaseDC(Handle(), hdc);
     }
 }

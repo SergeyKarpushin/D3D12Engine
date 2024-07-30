@@ -2,7 +2,7 @@
 #include "Platform/WIN32/WinEntry.h"
 #include "Engine/Simulation.h"
 
-class GameProject : public Engine::Simulation
+class GameProject : public Simulation
 {
 public:
     GameProject() {};

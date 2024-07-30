@@ -40,6 +40,7 @@ namespace Win32
 			Win32::SubObject* const pWnd = static_cast<Win32::SubObject*>(pCreate->lpCreateParams);
 			SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
 			SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&Win32::SubObject::AssignMessageHandler));
+			pWnd->SetHandle(hWnd);
 			return pWnd->MessageHandler(hWnd, msg, wParam, lParam);
 		}
 		return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -51,7 +52,7 @@ namespace Win32
 		return pWnd->MessageHandler(hWnd, msg, wParam, lParam);
 	}
 
-	LRESULT SubObject::CommonMessageHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+	LRESULT SubObject::MessageHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		return DefWindowProc(hwnd, message, wParam, lParam);
 	}

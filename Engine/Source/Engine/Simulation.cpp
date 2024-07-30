@@ -2,22 +2,34 @@
 #include "Simulation.h"
 #include "Engine/SpashScreen.h"
 
-Engine::Simulation::Simulation()
+Simulation::Simulation()
+    : Win32::Window(L"MainApplication", NULL)
 {
 }
 
-Engine::Simulation::~Simulation()
+Simulation::~Simulation()
 {
 }
 
-VOID Engine::Simulation::PreInitialize()
+VOID Simulation::PreInitialize()
 {
-	Logger::PrintDebugSeperator();
-	Logger::PrintLog(L"Application Starting...\n");
-	Logger::PrintLog(L"Game Name: %s\n", PerGameSettings::GameName());
-	Logger::PrintLog(L"Boot Time: %s\n", Time::GetDateTime().c_str());
-	Logger::PrintLog(L"Engine Mode: %s\n", Engine::EngineModeToString().c_str());
-	Logger::PrintDebugSeperator();
+    Logger::PrintDebugSeperator();
+    Logger::PrintLog(L"Application Starting...\n");
+    Logger::PrintLog(L"Game Name: %s\n", PerGameSettings::GameName());
+    Logger::PrintLog(L"Boot Time: %s\n", Time::GetDateTime().c_str());
+    Logger::PrintLog(L"Engine Mode: %s\n", Engine::EngineModeToString().c_str());
+    Logger::PrintDebugSeperator();
 
-	SplashScreen::Open();
+    SplashScreen::Open();
+
+    Window::RegisterNewClass();
+    Window::Initialize();
+}
+
+LRESULT Simulation::MessageHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    switch (message) {
+
+    }
+    return Window::MessageHandler(hwnd, message, wParam, lParam);
 }
