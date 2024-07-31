@@ -21,7 +21,7 @@ namespace Win32
         wcex.cbClsExtra = 0;
         wcex.cbWndExtra = 0;
         wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-        wcex.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(46,46,46));
+        wcex.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(36,36,36));
         wcex.hIcon = m_hIcon;
         wcex.hIconSm = m_hIcon;
         wcex.lpszClassName = m_Class.c_str();

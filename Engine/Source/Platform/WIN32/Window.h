@@ -17,12 +17,14 @@ namespace Win32 {
         virtual	LRESULT	MessageHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) override;
 
         VOID OnNonClientCreate();
+        VOID OnNonClientActivate(BOOL active);
         VOID OnNonClientPaint(HRGN region);
         VOID RedrawWindow();
 
     protected:
         SIZE         m_Size;
         WindowType   m_type;
+        BOOL         m_Active;
 
     public:
         SIZE        Size() const { return m_Size; }

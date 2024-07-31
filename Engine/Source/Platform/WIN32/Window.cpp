@@ -43,6 +43,7 @@ namespace Win32
         switch (message)
         {
         case WM_NCCREATE: { OnNonClientCreate(); } return TRUE;
+        case WM_NCACTIVATE: { OnNonClientActivate((BOOL)wParam != m_Active); } return TRUE;
         case WM_NCPAINT: { OnNonClientPaint((HRGN)wParam); } return FALSE;
         case WM_TIMER: { RedrawWindow(); } break;
         }
@@ -61,6 +62,11 @@ namespace Win32
         SetWindowTheme(Handle(), L"", L"");
     }
 
+    VOID Window::OnNonClientActivate(BOOL active)
+    {
+        m_Active = active;
+    }
+
     VOID Window::OnNonClientPaint(HRGN region)
     {
         HDC hdc = GetDCEx(Handle(), region, DCX_WINDOW | DCX_INTERSECTRGN | DCX_USERSTYLE);
@@ -69,12 +75,20 @@ namespace Win32
         GetWindowRect(Handle(), &rect);
 
         SIZE size = { rect.right - rect.left, rect.bottom - rect.top };
-        RECT newRect = { 0, 0, size.cx, size.cy };
 
+        HBITMAP hbmMem = CreateCompatibleBitmap(hdc, size.cx, size.cy);
+        HANDLE hOld = SelectObject(hdc, hbmMem);
+
+        RECT newRect = { 0, 0, size.cx, size.cy };
         HBRUSH brush = CreateSolidBrush(RGB(46, 46, 46));
 
         FillRect(hdc, &newRect, brush);
         DeleteObject(brush);
+
+        BitBlt(hdc, 0, 0, size.cx, size.cy, hdc, 0, 0, SRCCOPY);
+
+        SelectObject(hdc, hOld);
+        DeleteObject(hbmMem);
 
         ReleaseDC(Handle(), hdc);
     }
