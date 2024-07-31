@@ -9,7 +9,7 @@
 namespace Win32
 {
     Window::Window(std::wstring title, HICON icon, WindowType type)
-        : SubObject(title, title, icon), m_type(type)
+        : SubObject(title, title, icon), m_Type(type)
     {
         SetSize(DEFAULT_SIZE_X, DEFAULT_SIZE_Y);
     }
@@ -24,18 +24,23 @@ namespace Win32
         const HWND hWnd = GetDesktopWindow();
         GetWindowRect(hWnd, &desktop);
 
+        RECT R = { 0, 0, Size().cx, Size().cy };
+        AdjustWindowRect(&R, m_Type, false);
+        int width = R.right - R.left;
+        int height = R.bottom - R.top;
+
         INT x = Size().cx;
         INT y = Size().cy;
 
-        m_hWnd = CreateWindow(m_Class.c_str(), m_Title.c_str(), m_type,
+        m_Handle = CreateWindow(m_Class.c_str(), m_Title.c_str(), m_Type,
             (desktop.right - x) / 2, (desktop.bottom - y) / 2, x, y, 0, 0, HInstance(), (void*)this);
-        if (!m_hWnd) {
+        if (!m_Handle) {
             MessageBox(0, L"Failed to Create Window!", 0, 0);
             PostQuitMessage(0);
         }
 
-        ShowWindow(m_hWnd, SW_SHOW);
-        UpdateWindow(m_hWnd);
+        ShowWindow(m_Handle, SW_SHOW);
+        UpdateWindow(m_Handle);
     }
 
     LRESULT Window::MessageHandler(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -43,7 +48,7 @@ namespace Win32
         switch (message)
         {
         case WM_NCCREATE: { OnNonClientCreate(); } return TRUE;
-        case WM_NCACTIVATE: { OnNonClientActivate((BOOL)wParam != m_Active); } return TRUE;
+        case WM_NCACTIVATE: { OnNonClientActivate((BOOL)wParam != WA_INACTIVE); } return TRUE;
         case WM_NCPAINT: { OnNonClientPaint((HRGN)wParam); } return FALSE;
         case WM_TIMER: { RedrawWindow(); } break;
         }
@@ -83,6 +88,10 @@ namespace Win32
         HBRUSH brush = CreateSolidBrush(RGB(46, 46, 46));
 
         FillRect(hdc, &newRect, brush);
+
+        PaintCaption(hdc);
+
+        // End draw
         DeleteObject(brush);
 
         BitBlt(hdc, 0, 0, size.cx, size.cy, hdc, 0, 0, SRCCOPY);
@@ -91,5 +100,29 @@ namespace Win32
         DeleteObject(hbmMem);
 
         ReleaseDC(Handle(), hdc);
+    }
+
+
+    VOID Window::PaintCaption(HDC hdc)
+    {
+        RECT rect;
+        GetWindowRect(Handle(), &rect);
+
+        SIZE size = { rect.right - rect.left, rect.bottom - rect.top };
+
+        if (ShowTitle()) {
+            rect = { 0, 0, size.cx, 30 };
+
+            SetBkMode(hdc, TRANSPARENT);
+            SetTextColor(hdc, Active() ? RGB(255, 255, 255) : RGB(92, 92, 92));
+
+            DrawText(hdc, m_Title.c_str(), -1, &rect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+        }
+
+        std::wstring closeText = L"X";
+        int btnWidth = 30;
+        rect = { size.cx - btnWidth, 0, size.cx, 30 };
+
+        DrawText(hdc, closeText.c_str(), -1, &rect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
     }
 }

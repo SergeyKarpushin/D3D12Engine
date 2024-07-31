@@ -60,14 +60,14 @@
     <Filter Include="Source\Platform\Win32\Public">
       <UniqueIdentifier>{21c2a5a7-d582-47c3-b67d-006ba10e7d03}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Platform\Win32\Private">
-      <UniqueIdentifier>{15255677-7153-4be0-83d9-6798d328e6d0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Content">
       <UniqueIdentifier>{0aae554c-62e5-4a50-9e2f-1d7cbb403445}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Content\Images">
       <UniqueIdentifier>{417975a2-25f4-43c5-b4f8-e4e659022ba8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Platform\Win32\Private">
+      <UniqueIdentifier>{15255677-7153-4be0-83d9-6798d328e6d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -119,6 +119,9 @@
     <ClCompile Include="Source\Platform\Win32\Win32Utils.cpp">
       <Filter>Source\Platform\Win32\Private</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Platform\Win32\w32Captions.cpp">
+      <Filter>Source\Platform\Win32\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine.h">
@@ -168,6 +171,9 @@
     </ClInclude>
     <ClInclude Include="Source\Platform\Win32\Win32Utils.h">
       <Filter>Source\Platform\Win32\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\Win32\w32Captions.h">
+      <Filter>Source\Platform\Win32\Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

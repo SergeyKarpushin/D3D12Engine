@@ -104,6 +104,7 @@
     <ClCompile Include="Source\Engine\SplashScreen.cpp" />
     <ClCompile Include="Source\Platform\WIN32\IApplication.cpp" />
     <ClCompile Include="Source\Platform\Win32\SubObject.cpp" />
+    <ClCompile Include="Source\Platform\Win32\w32Captions.cpp" />
     <ClCompile Include="Source\Platform\Win32\Win32Utils.cpp" />
     <ClCompile Include="Source\Platform\Win32\Window.cpp" />
   </ItemGroup>
@@ -121,6 +122,7 @@
     <ClInclude Include="Source\Engine\SpashScreen.h" />
     <ClInclude Include="Source\Platform\WIN32\IApplication.h" />
     <ClInclude Include="Source\Platform\Win32\SubObject.h" />
+    <ClInclude Include="Source\Platform\Win32\w32Captions.h" />
     <ClInclude Include="Source\Platform\Win32\Win32Utils.h" />
     <ClInclude Include="Source\Platform\Win32\Window.h" />
     <ClInclude Include="Source\Platform\WIN32\WinEntry.h" />

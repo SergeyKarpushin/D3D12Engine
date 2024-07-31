@@ -17,12 +17,14 @@ namespace Win32 {
 
 
     protected:
+#pragma warning(disable: 4251)
         std::wstring	m_Class;
         std::wstring	m_Title;
+#pragma warning(default: 4251)
         HICON           m_hIcon;
-        HWND            m_hWnd;
+        HWND            m_Handle;
     public:
-        HWND Handle() { return m_hWnd; }
-        VOID SetHandle(HWND hWnd) { m_hWnd = hWnd; }
+        HWND Handle() { return m_Handle; }
+        VOID SetHandle(HWND hWnd) { m_Handle = hWnd; }
     };
 }
