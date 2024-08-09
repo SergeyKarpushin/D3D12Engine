@@ -12,10 +12,10 @@ namespace Win32
         struct CaptionButton {
             WSTRING text = L"";
             INT command;
-            INT width = 50;
+            INT width = 40;
             RECT rect;
 
-            CaptionButton(WSTRING text, INT command, INT width = 50) : text(text), command(command), width(width) {};
+            CaptionButton(WSTRING text, INT command, INT width = 40) : text(text), command(command), width(width) {};
         };
 
     private:

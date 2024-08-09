@@ -51,6 +51,10 @@ namespace Win32
         case WM_NCACTIVATE: { OnNonClientActivate((BOOL)wParam != WA_INACTIVE); } return TRUE;
         case WM_NCPAINT: { OnNonClientPaint((HRGN)wParam); } return FALSE;
         case WM_NCLBUTTONDOWN: { OnNonClientLeftMouseButtonDown(); } break;
+        case WM_NCLBUTTONDBLCLK: { Win32::Utils::MaximizeWindow(Handle()); } return 0;
+        case WM_GETMINMAXINFO: { OnGetMinMaxInfo((MINMAXINFO*)lParam); } return 0;
+        case WM_EXITSIZEMOVE: { OnExitSizeMove(); } break;
+        case WM_PAINT: { OnPaint(); } return 0;
         case WM_TIMER: { RedrawWindow(); } break;
         }
         return SubObject::MessageHandler(hwnd, message, wParam, lParam);
@@ -119,11 +123,11 @@ namespace Win32
         pt.y -= rect.top;
 
         int offset = 0;
-        for (auto& btn : CaptionButtons()) 
+        for (auto& btn : CaptionButtons())
         {
-            if (btn->rect.left <= pt.x && btn->rect.right >= pt.x && btn->rect.top <= pt.y && btn->rect.bottom >= pt.y) 
+            if (btn->rect.left <= pt.x && btn->rect.right >= pt.x && btn->rect.top <= pt.y && btn->rect.bottom >= pt.y)
             {
-                switch (btn->command) 
+                switch (btn->command)
                 {
                 case CB_CLOSE: { SendMessage(Handle(), WM_CLOSE, 0, 0); } break;
                 case CB_MAXIMIZE: { Win32::Utils::MaximizeWindow(Handle()); } break;
@@ -132,6 +136,18 @@ namespace Win32
             }
         }
 
+    }
+
+    VOID Window::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
+    {
+        RECT workarea;
+        SystemParametersInfo(SPI_GETWORKAREA, 0, &workarea, 0);
+        lpMMI->ptMaxPosition.x = workarea.left;
+        lpMMI->ptMaxPosition.y = workarea.top;
+        lpMMI->ptMaxSize.x = workarea.right - workarea.left;
+        lpMMI->ptMaxSize.y = workarea.bottom - workarea.top;
+        lpMMI->ptMinTrackSize.x = 400;
+        lpMMI->ptMinTrackSize.y = 300;
     }
 
 
@@ -173,7 +189,8 @@ namespace Win32
             if (btn->text.compare(L"🗖") == 0 && Win32::Utils::IsWindowFullscreen(Handle()))
             {
                 btn->text = L"🗗";
-            } else if (btn->text.compare(L"🗗") == 0 && !Win32::Utils::IsWindowFullscreen(Handle()))
+            }
+            else if (btn->text.compare(L"🗗") == 0 && !Win32::Utils::IsWindowFullscreen(Handle()))
             {
                 btn->text = L"🗖";
             }
@@ -181,5 +198,28 @@ namespace Win32
             DrawText(hdc, btn->text.c_str(), -1, &btn->rect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
         }
 
+    }
+
+    VOID Window::OnExitSizeMove() {
+        RECT rect;
+        GetWindowRect(Handle(), &rect);
+        RECT WorkArea;
+        SystemParametersInfo(SPI_GETWORKAREA, 0, &WorkArea, 0);
+        if (rect.top < WorkArea.top + 10 && !Win32::Utils::IsWindowFullscreen(Handle())) {
+            Win32::Utils::MaximizeWindow(Handle());
+        }
+    }
+
+    VOID Window::OnPaint() {
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(Handle(), &ps);
+
+        RECT rect;
+        GetClientRect(Handle(), &rect);
+        HBRUSH brush = CreateSolidBrush(RGB(36, 36, 36));
+        FillRect(hdc, &rect, brush);
+        DeleteObject(brush);
+
+        EndPaint(Handle(), &ps);
     }
 }

@@ -22,7 +22,10 @@ namespace Win32 {
         VOID OnNonClientActivate(BOOL active);
         VOID OnNonClientPaint(HRGN region);
         VOID OnNonClientLeftMouseButtonDown();
+        VOID OnGetMinMaxInfo(MINMAXINFO* lpMMI);
         VOID PaintCaption(HDC hdc);
+        VOID OnExitSizeMove();
+        VOID OnPaint();
         VOID RedrawWindow();
 
     protected:
