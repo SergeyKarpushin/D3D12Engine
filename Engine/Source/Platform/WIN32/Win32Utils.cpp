@@ -32,4 +32,26 @@ namespace Win32 {
         }
 
     }
+
+    inline BOOL ENGINE_API IsWindowFullScreen(HWND hWnd)
+    {
+        WINDOWPLACEMENT placement;
+        placement.length = sizeof(WINDOWPLACEMENT);
+        GetWindowPlacement(hWnd, &placement);
+        return placement.showCmd == SW_MAXIMIZE;
+    }
+
+    inline VOID ENGINE_API MaximizeWindow(HWND hWnd)
+    {
+        WINDOWPLACEMENT placement;
+        placement.length = sizeof(WINDOWPLACEMENT);
+        GetWindowPlacement(hWnd, &placement);
+        if (placement.showCmd == SW_MAXIMIZE)
+        {
+            ShowWindow(hWnd, SW_NORMAL);
+        } else
+        {
+            ShowWindow(hWnd, SW_MAXIMIZE);
+        }
+    }
 }

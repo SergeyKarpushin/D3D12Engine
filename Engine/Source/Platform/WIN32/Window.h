@@ -21,6 +21,7 @@ namespace Win32 {
         VOID OnNonClientCreate();
         VOID OnNonClientActivate(BOOL active);
         VOID OnNonClientPaint(HRGN region);
+        VOID OnNonClientLeftMouseButtonDown();
         VOID PaintCaption(HDC hdc);
         VOID RedrawWindow();
 

@@ -50,6 +50,7 @@ namespace Win32
         case WM_NCCREATE: { OnNonClientCreate(); } return TRUE;
         case WM_NCACTIVATE: { OnNonClientActivate((BOOL)wParam != WA_INACTIVE); } return TRUE;
         case WM_NCPAINT: { OnNonClientPaint((HRGN)wParam); } return FALSE;
+        case WM_NCLBUTTONDOWN: { OnNonClientLeftMouseButtonDown(); } break;
         case WM_TIMER: { RedrawWindow(); } break;
         }
         return SubObject::MessageHandler(hwnd, message, wParam, lParam);
@@ -66,9 +67,9 @@ namespace Win32
         SetTimer(Handle(), 1, 100, NULL);
         SetWindowTheme(Handle(), L"", L"");
 
-        Win32::Caption::AddCaptionButton(new CaptionButton(L"X"));
-        Win32::Caption::AddCaptionButton(new CaptionButton(L"🗖"));
-        Win32::Caption::AddCaptionButton(new CaptionButton(L"_"));
+        Win32::Caption::AddCaptionButton(new CaptionButton(L"X", CB_CLOSE));
+        Win32::Caption::AddCaptionButton(new CaptionButton(L"🗖", CB_MAXIMIZE));
+        Win32::Caption::AddCaptionButton(new CaptionButton(L"🗕", CB_MINIMIZE));
     }
 
     VOID Window::OnNonClientActivate(BOOL active)
@@ -106,6 +107,33 @@ namespace Win32
         ReleaseDC(Handle(), hdc);
     }
 
+    VOID Window::OnNonClientLeftMouseButtonDown()
+    {
+        POINT pt;
+        GetCursorPos(&pt);
+
+        RECT rect;
+        GetWindowRect(Handle(), &rect);
+
+        pt.x -= rect.left;
+        pt.y -= rect.top;
+
+        int offset = 0;
+        for (auto& btn : CaptionButtons()) 
+        {
+            if (btn->rect.left <= pt.x && btn->rect.right >= pt.x && btn->rect.top <= pt.y && btn->rect.bottom >= pt.y) 
+            {
+                switch (btn->command) 
+                {
+                case CB_CLOSE: { SendMessage(Handle(), WM_CLOSE, 0, 0); } break;
+                case CB_MAXIMIZE: { Win32::Utils::MaximizeWindow(Handle()); } break;
+                case CB_MINIMIZE: { SendMessage(Handle(), WM_SYSCOMMAND, SC_MINIMIZE, 0); } break;
+                }
+            }
+        }
+
+    }
+
 
     VOID Window::PaintCaption(HDC hdc)
     {
@@ -125,7 +153,7 @@ namespace Win32
 
         POINT pt;
         GetCursorPos(&pt);
-        
+
         GetWindowRect(Handle(), &rect);
 
         pt.x -= rect.left;
@@ -134,12 +162,20 @@ namespace Win32
         int offset = 0;
         for (auto& btn : CaptionButtons()) {
             offset += btn->width;
-            btn->rect = RECT { size.cx - offset, 0, size.cx - offset + btn->width, 30 };
+            btn->rect = RECT{ size.cx - offset, 0, size.cx - offset + btn->width, 30 };
 
             if (btn->rect.left <= pt.x && btn->rect.right >= pt.x && btn->rect.top <= pt.y && btn->rect.bottom >= pt.y) {
                 HBRUSH brush = CreateSolidBrush(RGB(92, 92, 92));
                 FillRect(hdc, &btn->rect, brush);
                 DeleteObject(brush);
+            }
+
+            if (btn->text.compare(L"🗖") == 0 && Win32::Utils::IsWindowFullscreen(Handle()))
+            {
+                btn->text = L"🗗";
+            } else if (btn->text.compare(L"🗗") == 0 && !Win32::Utils::IsWindowFullscreen(Handle()))
+            {
+                btn->text = L"🗖";
             }
 
             DrawText(hdc, btn->text.c_str(), -1, &btn->rect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);

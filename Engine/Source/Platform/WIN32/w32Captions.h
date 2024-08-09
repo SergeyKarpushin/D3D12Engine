@@ -1,16 +1,21 @@
 #pragma once
 
+#define CB_CLOSE 0
+#define CB_MINIMIZE 1
+#define CB_MAXIMIZE 2
+
 namespace Win32
 {
     class Caption
     {
     public:
         struct CaptionButton {
-            WSTRING text = L"X";
+            WSTRING text = L"";
+            INT command;
             INT width = 50;
             RECT rect;
 
-            CaptionButton(WSTRING text, INT width = 50) : text(text), width(width) {};
+            CaptionButton(WSTRING text, INT command, INT width = 50) : text(text), command(command), width(width) {};
         };
 
     private:
