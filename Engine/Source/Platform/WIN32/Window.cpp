@@ -1,4 +1,4 @@
-#include "Engine.h"
+﻿#include "Engine.h"
 #include "Window.h"
 
 #include "Uxtheme.h"
@@ -65,6 +65,10 @@ namespace Win32
     {
         SetTimer(Handle(), 1, 100, NULL);
         SetWindowTheme(Handle(), L"", L"");
+
+        Win32::Caption::AddCaptionButton(new CaptionButton(L"X"));
+        Win32::Caption::AddCaptionButton(new CaptionButton(L"🗖"));
+        Win32::Caption::AddCaptionButton(new CaptionButton(L"_"));
     }
 
     VOID Window::OnNonClientActivate(BOOL active)
@@ -119,10 +123,27 @@ namespace Win32
             DrawText(hdc, m_Title.c_str(), -1, &rect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
         }
 
-        std::wstring closeText = L"X";
-        int btnWidth = 30;
-        rect = { size.cx - btnWidth, 0, size.cx, 30 };
+        POINT pt;
+        GetCursorPos(&pt);
+        
+        GetWindowRect(Handle(), &rect);
 
-        DrawText(hdc, closeText.c_str(), -1, &rect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+        pt.x -= rect.left;
+        pt.y -= rect.top;
+
+        int offset = 0;
+        for (auto& btn : CaptionButtons()) {
+            offset += btn->width;
+            btn->rect = RECT { size.cx - offset, 0, size.cx - offset + btn->width, 30 };
+
+            if (btn->rect.left <= pt.x && btn->rect.right >= pt.x && btn->rect.top <= pt.y && btn->rect.bottom >= pt.y) {
+                HBRUSH brush = CreateSolidBrush(RGB(92, 92, 92));
+                FillRect(hdc, &btn->rect, brush);
+                DeleteObject(brush);
+            }
+
+            DrawText(hdc, btn->text.c_str(), -1, &btn->rect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+        }
+
     }
 }

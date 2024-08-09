@@ -4,5 +4,6 @@
 #include "../resource.h"
 
 #include <string>
+#include <list>
 
 #include "Core/CoreMinimal.h"

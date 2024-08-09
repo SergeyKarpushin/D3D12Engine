@@ -60,9 +60,9 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>GameProject.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)Engine\Source;$(SolutionDir)Game\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
